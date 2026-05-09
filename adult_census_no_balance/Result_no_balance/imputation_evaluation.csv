@@ -1,7 +1,0 @@
-dataset,seed,rate,strategy,column,col_type,n_imputed,exact_matches,exact_match_rate,sem_sim_mean
-adult_census,42,10,knn,age,numerical,1369,7,0.005113,0.846911
-adult_census,42,10,knn,education_num,numerical,1369,50,0.036523,0.873555
-adult_census,42,10,knn,capital_gain,numerical,1369,967,0.706355,0.989859
-adult_census,42,10,knn,capital_loss,numerical,1369,1116,0.815194,0.972478
-adult_census,42,10,knn,hours_per_week,numerical,1369,68,0.049671,0.914862
-adult_census,42,10,knn,_ALL_,aggregate,6845,2208,0.322571,0.919533
