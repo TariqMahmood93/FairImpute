@@ -80,6 +80,14 @@ def build_graph_files(force: bool = False) -> None:
     X, y, feature_cols, train_mask, val_mask, test_mask, null_mask, df_raw_features = _preprocess_with_masks(source_csv)
     edge_index = _build_knn_graph(X, null_mask, feature_cols, df_raw_features)
 
+    # ── Option: Append Missingness Indicators ─────────────────────────────────
+    if getattr(config, "APPEND_MISSING_MASK", False):
+        print(f"[graph_builder] Appending missingness indicators to feature matrix ...")
+        mask_float   = null_mask.astype(np.float32)
+        X            = np.concatenate([X, mask_float], axis=1)
+        feature_cols = feature_cols + [f"{c}_nan" for c in feature_cols]
+        print(f"[graph_builder]   New feature shape : {X.shape}")
+
     _save_all(X, y, edge_index, train_mask, val_mask, test_mask, feature_cols, null_mask)
     print(f"\n[graph_builder] ✓ All files saved to: {config.GRAPH_DIR}/")
 
@@ -304,16 +312,25 @@ def _encode(df: pd.DataFrame, n_train_rows: int = None) -> tuple:
     null_mask = np.isnan(X)    # True where sentinel should go
     n_nulls = int(null_mask.sum())
 
-    # Replace ALL remaining NaN with sentinel
-    X[null_mask] = NULL_SENTINEL
+    # Replace remaining NaN with sentinel (numerical -> 0.0, categorical -> -1.0)
+    # 0.0 is the mean of Z-scored numerical features.
+    # -1.0 stays outside the range of label-encoded categoricals [0, N-1].
+    for col_idx, col_name in enumerate(feature_cols):
+        col_nan_mask = null_mask[:, col_idx]
+        if col_nan_mask.any():
+            if col_name in num_cols:
+                X[col_nan_mask, col_idx] = 0.0
+            else:
+                X[col_nan_mask, col_idx] = -1.0
 
     print(f"[graph_builder] Feature matrix     : {X.shape}  (nodes × features)")
-    print(f"[graph_builder] Null sentinel      : {n_nulls:,} cells set to {NULL_SENTINEL}")
+    print(f"[graph_builder] Null sentinels     : {n_nulls:,} cells (num=0.0, cat=-1.0)")
     print(f"[graph_builder] NaN in X after fill: {int(np.isnan(X).sum())}  (should be 0)")
 
     # ── Print first 5 vectors that contain nulls ──────────────────────────────
     if n_nulls > 0:
-        _print_null_vectors(X, null_mask, feature_cols, NULL_SENTINEL, max_show=5)
+        # Use a descriptive string for sentinel display in log
+        _print_null_vectors(X, null_mask, feature_cols, "0.0 or -1.0", max_show=5)
 
     return X, y, feature_cols, null_mask
 

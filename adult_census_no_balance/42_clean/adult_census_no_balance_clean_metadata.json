@@ -1,0 +1,65 @@
+{
+  "dataset": "adult_census",
+  "source": "clean",
+  "imputation": "none",
+  "null_sentinel": -1.0,
+  "null_sentinel_cells": 0,
+  "null_aware_graph": false,
+  "nan_in_features": 0,
+  "file_prefix": "adult_census_no_balance_clean",
+  "num_nodes": 19570,
+  "num_edges": 131540,
+  "num_features": 28,
+  "num_classes": 2,
+  "class_names": [
+    "<=50K (0)",
+    ">50K (1)"
+  ],
+  "k_neighbors": 5,
+  "feature_cols": [
+    "age",
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education_num",
+    "marital_status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital_gain",
+    "capital_loss",
+    "hours_per_week",
+    "native_country",
+    "age_nan",
+    "workclass_nan",
+    "fnlwgt_nan",
+    "education_nan",
+    "education_num_nan",
+    "marital_status_nan",
+    "occupation_nan",
+    "relationship_nan",
+    "race_nan",
+    "sex_nan",
+    "capital_gain_nan",
+    "capital_loss_nan",
+    "hours_per_week_nan",
+    "native_country_nan"
+  ],
+  "numerical_cols": [
+    "age",
+    "education_num",
+    "capital_gain",
+    "capital_loss",
+    "hours_per_week"
+  ],
+  "split": {
+    "train": 13699,
+    "val": 2936,
+    "test": 2935
+  },
+  "class_distribution": {
+    "<=50K (0)": 17346,
+    ">50K (1)": 2224
+  }
+}

@@ -1,0 +1,24 @@
+Imputation Quality Evaluation
+Dataset   : adult_census
+Seed      : 42
+Strategy  : knn  (KNN Imputer (scikit-learn))
+MCAR rate : 10%
+Generated : 2026-05-09 18:40:03
+======================================================================
+
+EXACT MATCH RATE
+--------------------------------------------------
+  2,208 / 6,845 = 0.3226 (32.26%)
+
+SEMANTIC SIMILARITY
+--------------------------------------------------
+  Mean: 0.9195  (method: distance_and_string)
+
+PER-COLUMN BREAKDOWN
+----------------------------------------------------------------------
+Column                 Type           Correct    Total ExactMatch  SemSim
+age                    numerical            7     1369     0.0051  0.8469
+education_num          numerical           50     1369     0.0365  0.8736
+hours_per_week         numerical           68     1369     0.0497  0.9149
+capital_gain           numerical          967     1369     0.7064  0.9899
+capital_loss           numerical         1116     1369     0.8152  0.9725
