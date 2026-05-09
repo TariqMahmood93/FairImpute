@@ -312,13 +312,14 @@ def _encode(df: pd.DataFrame, n_train_rows: int = None) -> tuple:
     null_mask = np.isnan(X)    # True where sentinel should go
     n_nulls = int(null_mask.sum())
 
-    # Replace remaining NaN with sentinel (numerical -> 0.0, categorical -> -1.0)
-    # 0.0 is the mean of Z-scored numerical features.
-    # -1.0 stays outside the range of label-encoded categoricals [0, N-1].
+    # Replace remaining NaN with sentinel.
+    # If using indicators, we can use 0.0 for numerical features (the mean).
+    # Otherwise, we use -1.0 for everything to stay outside valid ranges.
+    use_indicators = getattr(config, "APPEND_MISSING_MASK", False)
     for col_idx, col_name in enumerate(feature_cols):
         col_nan_mask = null_mask[:, col_idx]
         if col_nan_mask.any():
-            if col_name in num_cols:
+            if use_indicators and col_name in num_cols:
                 X[col_nan_mask, col_idx] = 0.0
             else:
                 X[col_nan_mask, col_idx] = -1.0

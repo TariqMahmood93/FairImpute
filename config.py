@@ -10,7 +10,7 @@ DATASET_NAME = "adult_census"   # ← "adult_census" or "german_credit"
 BALANCE_STRATEGY = "no_balance"
 
 # MISSINGNESS INDICATORS — if True, append binary mask (1.0=missing) to features
-APPEND_MISSING_MASK = True
+APPEND_MISSING_MASK = False
 
 BATCH_SOURCES = [
     # Baseline — clean data (no nulls, no imputation)
