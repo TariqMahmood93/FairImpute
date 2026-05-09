@@ -9,6 +9,9 @@ DATASET_NAME = "adult_census"   # ← "adult_census" or "german_credit"
 # Valid values: "no_balance", "twostage", "stratified_sampling"
 BALANCE_STRATEGY = "no_balance"
 
+# MISSINGNESS INDICATORS — if True, append binary mask (1.0=missing) to features
+APPEND_MISSING_MASK = True
+
 BATCH_SOURCES = [
     # Baseline — clean data (no nulls, no imputation)
     ("clean",   "none"),

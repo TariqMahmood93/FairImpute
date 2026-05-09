@@ -1,0 +1,57 @@
+{
+  "dataset": "adult_census",
+  "source": "clean",
+  "timestamp": "2026-05-09 18:39:56",
+  "imputation": {
+    "method": "none",
+    "label": "No Imputation (raw nulls)"
+  },
+  "graph": {
+    "num_nodes": 19570,
+    "num_edges": 131540,
+    "num_features": 28,
+    "num_classes": 2,
+    "k_neighbors": 5
+  },
+  "hyperparameters": {
+    "hidden_dim": 64,
+    "num_layers": 3,
+    "dropout": 0.5,
+    "lr": 0.01,
+    "weight_decay": 0.0005,
+    "epochs": 2
+  },
+  "split": {
+    "train": 13699,
+    "val": 2936,
+    "test": 2935
+  },
+  "accuracy": {
+    "train": 0.1143,
+    "val": 0.627,
+    "test": 0.6504
+  },
+  "f1_macro": {
+    "train": 0.103,
+    "val": 0.478,
+    "test": 0.4959
+  },
+  "f1_weighted": {
+    "train": 0.0252,
+    "val": 0.6935,
+    "test": 0.7115
+  },
+  "roc_auc": {
+    "train": 0.4937,
+    "val": 0.554,
+    "test": 0.5464
+  },
+  "training": {
+    "retrained": true,
+    "stopped_early": false,
+    "best_val_acc": 0.627,
+    "best_val_epoch": 2,
+    "total_epochs": 2,
+    "final_loss": 1092.0527
+  }
+}

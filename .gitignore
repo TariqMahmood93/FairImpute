@@ -1,0 +1,14 @@
+__pycache__/
+*.npy
+*.pt
+*.png
+*.log
+*.data
+*.csv
+!adult_census/adult.data
+!adult_census/adult_census_clean.csv
+Result_*/
+*_no_balance/
+*_twostage/
+*_stratified_sampling/
+.ipynb_checkpoints/

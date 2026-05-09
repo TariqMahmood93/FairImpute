@@ -69,6 +69,15 @@ def run_training(model, data: Data, device: torch.device) -> dict:
           f"(lr={config.LR}, wd={config.WEIGHT_DECAY}, dropout={config.DROPOUT})")
     print(f"[trainer] Strategy             : run ALL epochs, select best\n")
 
+    # ── Safeguard: Verify input feature dimension ─────────────────────────────
+    # model.convs[0] is the first GCNConv layer. Its in_channels must match data.x
+    if hasattr(model, "convs") and len(model.convs) > 0:
+        expected_dim = model.convs[0].in_channels
+        actual_dim   = data.x.shape[1]
+        assert actual_dim == expected_dim, \
+            f"Dimension mismatch! Model expects {expected_dim} features, but data has {actual_dim}. " \
+            f"Check config.APPEND_MISSING_MASK and rebuild graph."
+
     optimizer = torch.optim.Adam(model.parameters(),
                                   lr=config.LR, weight_decay=config.WEIGHT_DECAY)
 
@@ -144,6 +153,13 @@ def evaluate(model, data: Data, device: torch.device) -> dict:
 
     results = {}
     model.eval()
+
+    # ── Safeguard: Verify input feature dimension ─────────────────────────────
+    if hasattr(model, "convs") and len(model.convs) > 0:
+        expected_dim = model.convs[0].in_channels
+        actual_dim   = data.x.shape[1]
+        assert actual_dim == expected_dim, \
+            f"Dimension mismatch! Model expects {expected_dim} features, but data has {actual_dim}."
 
     with torch.no_grad():
         logits = model(data.x, data.edge_index)
